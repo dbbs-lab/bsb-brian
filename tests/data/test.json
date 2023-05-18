@@ -1,0 +1,83 @@
+{
+  "storage": {
+    "engine": "hdf5"
+  },
+  "network": {
+    "x": 50.0,
+    "y": 50.0,
+    "z": 50.0,
+    "chunk_size": 50
+  },
+  "partitions": {
+    "any": {
+      "type": "layer",
+      "thickness": 50
+    }
+  },
+  "cell_types": {
+    "G": {
+      "spatial": {
+        "radius": 1,
+        "count": 2
+      }
+    }
+  },
+  "placement": {
+    "place_cells": {
+      "strategy": "bsb.placement.RandomPlacement",
+      "cell_types": [
+        "G"
+      ],
+      "partitions": [
+        "any"
+      ]
+    }
+  },
+  "connectivity": {
+    "G_to_G": {
+      "strategy": "bsb.connectivity.AllToAll",
+      "presynaptic": {
+        "cell_types": [
+          "G"
+        ]
+      },
+      "postsynaptic": {
+        "cell_types": [
+          "G"
+        ]
+      }
+    }
+  },
+  "simulations": {
+    "test": {
+      "simulator": "brian",
+      "duration": 1000,
+      "cell_models": {
+        "G": {
+          "equation": "dv/dt = (I-v)/tau : 1\nI : 1\ntau : second",
+          "threshold": "v>1",
+          "reset": "v = 0",
+          "method": "exact",
+          "constants": {
+            "I": [2, null],
+            "tau": [10, "ms"]
+          }
+        }
+      },
+      "connection_models": {
+        "G_to_G": {
+          "on_pre": "v_post += 0.2",
+          "constants": {
+            "i": 0,
+            "j": 1
+          }
+        }
+      },
+      "devices": {
+        "voltage_recorder": {
+          "device": "voltage_recorder"
+        }
+      }
+    }
+  }
+}
