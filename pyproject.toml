@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bsb-brian"
+description = "Run Brian simulators within the BSB framework"
+version = "0.0.1"
+dependencies = [
+    "brian2",
+    "bsb"
+]
+
+[project.entry-points."bsb.simulation_backends"]
+brian = "bsb_brian"
